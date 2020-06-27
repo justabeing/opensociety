@@ -3,3 +3,4 @@ clips.txt
 *.sublime-*
 .Desktop
 .DS_Store
+website/*
