@@ -1229,8 +1229,12 @@ h3 {
 }
 
 /* line 97, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_slider.scss */
+.slider_area .title_text h2 {
+  color: #fff;
+}
+
 .slider_area .title_text h3 {
-  font-size: 90px;
+  font-size: 80px;
   font-weight: 700;
   text-transform: capitalize;
   line-height: 100px;
