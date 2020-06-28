@@ -2711,6 +2711,21 @@ h3 {
 /* line 36, C:/Users/SPN Graphics/Desktop/CL September/209/HTML/scss/_contact.scss */
 .contact-info .media-body p {
   color: #8a8a8a;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 26px;
+}
+
+.footer .footer_top .footer_widget .contact-info p {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 26px;
+}
+
+.contact-info__icon i, .contact-info__icon span {
+    color: #fff;
+    font-size: 27px;
 }
 
 /*=================== contact banner end ====================*/
