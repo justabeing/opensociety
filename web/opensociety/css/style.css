@@ -1099,7 +1099,7 @@ h3 {
   position: relative;
   margin-bottom: 213px;
   z-index: 3;
-  padding: 55px 8px 12px 0px;
+  padding: 65px 8px 0px 0px;
 }
 
 @media (max-width: 767px) {
