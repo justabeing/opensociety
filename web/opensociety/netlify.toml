@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/signup"
-  to = "https://forms.gle/sbrhb51f9rAgktYR8"
+  to = "https://forms.gle/2Vum1JgLNJvzus3p8"
   status = 200
   force = true # COMMENT: ensure that we always redirect
   # headers = {X-From = "Netlify"}
