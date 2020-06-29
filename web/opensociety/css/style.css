@@ -1234,7 +1234,7 @@ h3 {
 }
 
 .slider_area .title_text h3 {
-  font-size: 80px;
+  font-size: 66px;
   font-weight: 700;
   text-transform: capitalize;
   line-height: 100px;
@@ -5827,6 +5827,23 @@ h6 {
 .blog_part .single-home-blog .card ul li span {
   margin-right: 10px;
   font-size: 12px;
+}
+
+.iframe-container {
+  overflow: visible;
+  /* Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625) */
+  padding-top: 56.25%;
+  position: relative;
+  min-height: 3174px;
+}
+
+.iframe-container iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */
