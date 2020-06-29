@@ -5834,7 +5834,7 @@ h6 {
   /* Calculated from the aspect ration of the content (in case of 16:9 it is 9/16= 0.5625) */
   padding-top: 56.25%;
   position: relative;
-  min-height: 3174px;
+  min-height: 4750px;
 }
 
 .iframe-container iframe {
@@ -5842,6 +5842,7 @@ h6 {
    height: 100%;
    left: 0;
    position: absolute;
+   overflow: visible;
    top: 0;
    width: 100%;
 }
