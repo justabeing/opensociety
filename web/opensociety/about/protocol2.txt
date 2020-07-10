@@ -50,9 +50,18 @@ Cryptocurrency/smart contract with donation(tax) project coordination. Organize 
 
 Oh yeah, fork the seeds. And continue from there or the opensociety one. If you want to work on the organization that governs. Without authority.
 
-@ github/gitlab/bitbucket:
+What is Open Society?
+The idea is "What the internet should be", "What Google should be", "What all the tools should be", "What this network look like","What projects there are",  "What research there is", "What ideas there are", "What we have accomplished", "The future", "Web 3.0", "Blockhain and smart contracts", "New political, economical, social, technological, religious, scientific, etc., and communication protocols, languages and platforms."
+
+Submit what you would like your world to be be at:
+https://opensociety.se/signup
+https://trello.com/b/HdpzUazR/open-society-projekt-och-id%C3%A9er
+
+@ Github / Gitlab / Bitbucket:
 justabeing/seed
 justabeing/opensociety
+
+@sourceforge: https://sourceforge.net/p/opensociety-seed/
 
 Kan bara tänka mig om någon hittar det här dokumentet och det blir ett stort jippo av att de upptäcker att en psykiskt sjuk alien man sitter och skriker på hjälp från världen och människorna genom att utveckla något. Skulle vilja läsa den artikeln. Kan tänka mig att det finns dom som börjar tro att min morfar är Satoshi Nakamoto också. Hahaha galna männsikor är så kul. Ta hand om dem. Ta hand om er själva. Vi kan alla göra gott.
 (TRANSLATE THIS)
