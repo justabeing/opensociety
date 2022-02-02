@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Work</title>
+    <style type="text/css" media="screen">
+    #spring {
+        position: absolute;
+        top: 100px;
+    }
+    .slider {
+        top: 7px;
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        height: 25px;
+        outline: none;
+        z-index: 1;
+    }
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: black;
+        cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
+    </style>
+
+</head>
+<body>
+<script>
+// function calcX(c, b) {
+//   return (Math.sqrt((c * c) - (b * b)));
+// }
+function calcX(angle) {
+    return length * Math.cos(angle * (Math.PI / 180));
+}
+
+function calcAngle(value) {
+    return Math.acos(value / (length*num_links)) / (Math.PI / 180);
+}
+
+function getValue(angle) {
+    return calcX(angle)*num_links;
+}
+
+function calcForce(value) {
+    return K*value
+}
+
+function onRangeChange(event) {
+    console.log(event.target.value)
+    const forceElement = document.getElementById("force");
+    forceElement.innerText = calcForce(event.target.value);
+    render(calcAngle(event.target.value));
+}
+
+const K = 1; // spring constant
+const length = 50; // link length
+const num_links = 20; // number of links
+const init_angle = 45; // link degrees
+
+const spring = document.createElement("div");
+spring.id = "spring";
+spring.innerHTML = "<p>Max length: " + length*num_links + " k=" + K + "</p>";
+spring.innerHTML += '<p>Force = k*x = <span id="force">' + calcForce(getValue(init_angle)) + '</span> Newton</p>';
+document.body.appendChild(spring);
+const canvas = document.createElement("div");
+canvas.className = "spring"
+const input = document.createElement("input");
+input.type = "range";
+input.min = 0;
+input.max = length*num_links;
+input.value = getValue(init_angle);
+input.style.width = length*num_links + "px";
+// input.style.height = 25 + "px";
+input.className = "spring slider"
+input.addEventListener("input", onRangeChange);
+spring.appendChild(input);
+spring.appendChild(canvas);
+render(init_angle);
+
+function render(angle) {
+    canvas.innerHTML = "";
+    for (var i = 0; i < num_links; i++) {
+        const line = document.createElement("div");
+        line.className = "line" + i;
+        line.style.width = length + "px";
+        line.style.position = "absolute";
+        line.style.borderBottom = "3px solid black";
+        line.style.transform = "translateY(" + 0 + "px)";
+        line.style.transform += "translateX(" + calcX(angle)*i + "px)";
+        if (i % 2 == 0) line.style.transform += "rotate(" + angle + "deg)";
+        else line.style.transform += "rotate(-" + angle + "deg)";
+        canvas.appendChild(line);
+    }
+}
+</script>
+</body>
+</html>
