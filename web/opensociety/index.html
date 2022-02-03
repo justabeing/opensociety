@@ -41,6 +41,7 @@
         margin-top: -23px;
     }
     #equilibrium {
+        display: inline-block;
         height: 250px;
         border-left: 1px dotted;
         position: relative;
@@ -50,7 +51,7 @@
     #xaxis {
         border-bottom: 1px dotted;
         position: relative;
-        top: -316px;
+        top: -300px;
         text-align: end;
     }
     </style>
@@ -131,7 +132,7 @@ const equilibrium = document.createElement("div");
 equilibrium.id = "equilibrium";
 // equilibrium.style.left = calcX(init_angle)*(num_links+1) + "px";
 equilibrium.style.left = equilibrium_value + "px";
-equilibrium.innerHTML = '<p style="margin-left: 5px;">Equilibrium point</p>';
+equilibrium.innerHTML = '<p style="margin-left: 5px; width: fit-content;">Equilibrium point</p>';
 spring.appendChild(equilibrium);
 
 const xaxis = document.createElement("div");
