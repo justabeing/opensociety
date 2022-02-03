@@ -6,8 +6,6 @@
     <title>Spring Work</title>
     <style type="text/css" media="screen">
     #spring {
-        position: absolute;
-        top: 100px;
     }
     .slider {
         top: 7px;
@@ -17,17 +15,17 @@
         background: transparent;
         height: 25px;
         outline: none;
-        z-index: 1;
+        z-index: 2;
     }
     .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         width: 25px;
         height: 50px;
-        background: black;
         cursor: pointer;
-        margin-left: 23px;
         margin-top: 23px;
+        margin-left: 23px;
+        background: #f6e3c3;
     }
     .slider::-moz-range-thumb {
         width: 25px;
@@ -35,12 +33,25 @@
         cursor: pointer;
     }
     #wall {
-        background: #b1b1b1;
+        background: #c5c7da;
         height: 50px;
         width: 25px;
         position: relative;
         z-index: 1;
         margin-top: -23px;
+    }
+    #equilibrium {
+        height: 250px;
+        border-left: 1px dotted;
+        position: relative;
+        top: -160px;
+        margin-left: 7px; /* TODO: something wrong with calc, this value only works with 45 degree init_angle */
+    }
+    #xaxis {
+        border-bottom: 1px dotted;
+        position: relative;
+        top: -316px;
+        text-align: end;
     }
     </style>
 
@@ -63,13 +74,21 @@ function getValue(angle) {
 }
 
 function calcForce(value) {
-    return K*value
+    return -K*value
 }
 
 function onRangeChange(event) {
-    console.log(event.target.value)
     const forceElement = document.getElementById("force");
-    forceElement.innerText = calcForce(event.target.value);
+    const x = event.target.value - equilibrium_value;
+    console.log("x: ", x);
+    const xel = document.getElementById("x");
+    xel.innerText = x;
+    forceElement.innerText = calcForce(x);
+
+    if (event.target.value == equilibrium_value) state_value.innerText = "Equilibrium";
+    else if (event.target.value > equilibrium_value) state_value.innerText = "Elongated (Stretched)";
+    else state_value.innerText = "Compressed";
+
     render(calcAngle(event.target.value));
 }
 
@@ -77,11 +96,18 @@ const K = 1; // spring constant
 const length = 50; // link length
 const num_links = 20; // number of links
 const init_angle = 45; // link degrees
+const equilibrium_value = Math.round(getValue(init_angle));
+
+const info = document.createElement("div");
+info.id = "info";
+info.innerHTML = "<p>Max length: " + length*num_links + "</p><p>k=" + K + "</p><p>Equilibrium angle: " + init_angle + " degrees</p>";
+info.innerHTML += '<p>Force = -kx = -' + K + '(<span id="x">0</span>) = <span id="force">0</span> Newton</p>';
+document.body.appendChild(info);
 
 const spring = document.createElement("div");
 spring.id = "spring";
-spring.innerHTML = "<p>Max length: " + length*num_links + " k=" + K + "</p>";
-spring.innerHTML += '<p>Force = k*x = <span id="force">' + calcForce(getValue(init_angle)) + '</span> Newton</p>';
+// spring.innerHTML = "<p>Max length: " + length*num_links + "</p><p>k=" + K + "</p><p>Equilibrium angle: " + init_angle + " degrees</p>";
+// spring.innerHTML += '<p>Force = -kx = -' + K + '(<span id="x">0</span>) = <span id="force">0</span> Newton</p>';
 document.body.appendChild(spring);
 const canvas = document.createElement("div");
 canvas.className = "spring"
@@ -89,16 +115,43 @@ const input = document.createElement("input");
 input.type = "range";
 input.min = 0;
 input.max = length*num_links;
-input.value = getValue(init_angle);
+input.value = equilibrium_value;
 input.style.width = length*num_links + "px";
 // input.style.height = 25 + "px";
 input.className = "spring slider"
 input.addEventListener("input", onRangeChange);
 spring.appendChild(input);
 spring.appendChild(canvas);
+
 const wall = document.createElement("div");
 wall.id = "wall";
 spring.appendChild(wall);
+
+const equilibrium = document.createElement("div");
+equilibrium.id = "equilibrium";
+// equilibrium.style.left = calcX(init_angle)*(num_links+1) + "px";
+equilibrium.style.left = equilibrium_value + "px";
+equilibrium.innerHTML = '<p style="margin-left: 5px;">Equilibrium point</p>';
+spring.appendChild(equilibrium);
+
+const xaxis = document.createElement("div");
+xaxis.id = "xaxis";
+xaxis.style.width = length*num_links + 100 + "px";
+// const xaxis_text = document.createElement("p");
+// xaxis_text.innerText = "x-axis";
+// xaxis.appendChild(xaxis_text);
+const state_text = document.createElement("p");
+state_text.style.position = "relative";
+state_text.style.bottom = "50px";
+state_text.innerText = "State: ";
+const state_value = document.createElement("span");
+state_value.id = "state";
+state_value.innerText = "Equilibrium";
+state_text.appendChild(state_value);
+xaxis.appendChild(state_text);
+
+spring.appendChild(xaxis);
+
 render(init_angle);
 
 function render(angle) {
