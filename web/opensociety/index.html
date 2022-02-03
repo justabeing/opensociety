@@ -23,14 +23,24 @@
         -webkit-appearance: none;
         appearance: none;
         width: 25px;
-        height: 25px;
+        height: 50px;
         background: black;
         cursor: pointer;
+        margin-left: 23px;
+        margin-top: 23px;
     }
     .slider::-moz-range-thumb {
         width: 25px;
         height: 25px;
         cursor: pointer;
+    }
+    #wall {
+        background: #b1b1b1;
+        height: 50px;
+        width: 25px;
+        position: relative;
+        z-index: 1;
+        margin-top: -23px;
     }
     </style>
 
@@ -86,6 +96,9 @@ input.className = "spring slider"
 input.addEventListener("input", onRangeChange);
 spring.appendChild(input);
 spring.appendChild(canvas);
+const wall = document.createElement("div");
+wall.id = "wall";
+spring.appendChild(wall);
 render(init_angle);
 
 function render(angle) {
