@@ -18,14 +18,13 @@
         z-index: 2;
     }
     .slider::-webkit-slider-thumb {
+        background: #f6e3c3;
         -webkit-appearance: none;
         appearance: none;
         width: 25px;
         height: 50px;
         cursor: pointer;
         margin-top: 23px;
-        margin-left: 23px;
-        background: #f6e3c3;
     }
     .slider::-moz-range-thumb {
         width: 25px;
@@ -45,13 +44,12 @@
         height: 250px;
         border-left: 1px dotted;
         position: relative;
-        top: -160px;
-        margin-left: 7px; /* TODO: something wrong with calc, this value only works with 45 degree init_angle */
+        top: -125px;
     }
     #xaxis {
         border-bottom: 1px dotted;
         position: relative;
-        top: -300px;
+        top: -250px;
         text-align: end;
     }
     </style>
@@ -59,67 +57,73 @@
 </head>
 <body>
 <script>
-// function calcX(c, b) {
-//   return (Math.sqrt((c * c) - (b * b)));
-// }
-function calcX(angle) {
-    return length * Math.cos(angle * (Math.PI / 180));
+function getLinkX(angle) {
+    return link_length * Math.cos(angle * (Math.PI / 180));
 }
 
-function calcAngle(value) {
-    return Math.acos(value / (length*num_links)) / (Math.PI / 180);
+function getAngle(value) {
+    return Math.acos(value / (link_length*num_links)) / (Math.PI / 180);
 }
 
 function getValue(angle) {
-    return calcX(angle)*num_links;
+    return getLinkX(angle)*num_links;
 }
 
-function calcForce(value) {
+function getForce(value) {
     return -K*value
 }
 
 function onRangeChange(event) {
     const forceElement = document.getElementById("force");
     const x = event.target.value - equilibrium_value;
-    console.log("x: ", x);
     const xel = document.getElementById("x");
     xel.innerText = x;
-    forceElement.innerText = calcForce(x);
+    forceElement.innerText = getForce(x);
 
     if (event.target.value == equilibrium_value) state_value.innerText = "Equilibrium";
     else if (event.target.value > equilibrium_value) state_value.innerText = "Elongated (Stretched)";
     else state_value.innerText = "Compressed";
 
-    render(calcAngle(event.target.value));
+    render(getAngle(event.target.value));
 }
 
 const K = 1; // spring constant
-const length = 50; // link length
+const link_length = 30; // link length
 const num_links = 20; // number of links
-const init_angle = 45; // link degrees
+const init_angle = 60; // link degreesc
+console.log("X=", getLinkX(init_angle))
+console.log("value=", getValue(init_angle))
 const equilibrium_value = Math.round(getValue(init_angle));
 
 const info = document.createElement("div");
 info.id = "info";
-info.innerHTML = "<p>Max length: " + length*num_links + "</p><p>k=" + K + "</p><p>Equilibrium angle: " + init_angle + " degrees</p>";
-info.innerHTML += '<p>Force = -kx = -' + K + '(<span id="x">0</span>) = <span id="force">0</span> Newton</p>';
+info.innerHTML = "<p>Spring max length: " + link_length*num_links + ". Equilibrium length: " + equilibrium_value + ". Equilibrium angle: " + init_angle + " degrees. Number of links in spring: " + num_links + ". Link length: " + link_length + "</p>";
+info.innerHTML += '<p>k=' + K + '</p><p>Force = -kx = -' + K + '(<span id="x">0</span>) = <span id="force">0</span> Newton</p>';
 document.body.appendChild(info);
 
 const spring = document.createElement("div");
 spring.id = "spring";
-// spring.innerHTML = "<p>Max length: " + length*num_links + "</p><p>k=" + K + "</p><p>Equilibrium angle: " + init_angle + " degrees</p>";
-// spring.innerHTML += '<p>Force = -kx = -' + K + '(<span id="x">0</span>) = <span id="force">0</span> Newton</p>';
 document.body.appendChild(spring);
+
+const state_text = document.createElement("p");
+// state_text.style.position = "relative";
+// state_text.style.bottom = "50px";
+state_text.innerText = "State: ";
+const state_value = document.createElement("span");
+state_value.id = "state";
+state_value.innerText = "Equilibrium";
+state_text.appendChild(state_value);
+spring.appendChild(state_text);
+
 const canvas = document.createElement("div");
-canvas.className = "spring"
 const input = document.createElement("input");
 input.type = "range";
 input.min = 0;
-input.max = length*num_links;
+input.max = link_length*num_links;
 input.value = equilibrium_value;
-input.style.width = length*num_links + "px";
+input.style.width = link_length*num_links + 23 + "px"; // TODO: 23px is hack to align input arm (block) with equilibrium point
 // input.style.height = 25 + "px";
-input.className = "spring slider"
+input.className = "slider"
 input.addEventListener("input", onRangeChange);
 spring.appendChild(input);
 spring.appendChild(canvas);
@@ -130,28 +134,21 @@ spring.appendChild(wall);
 
 const equilibrium = document.createElement("div");
 equilibrium.id = "equilibrium";
-// equilibrium.style.left = calcX(init_angle)*(num_links+1) + "px";
+// equilibrium.style.left = getLinkX(init_angle)*(num_links+1) + "px";
 equilibrium.style.left = equilibrium_value + "px";
 equilibrium.innerHTML = '<p style="margin-left: 5px; width: fit-content;">Equilibrium point</p>';
 spring.appendChild(equilibrium);
 
+
+
 const xaxis = document.createElement("div");
 xaxis.id = "xaxis";
-xaxis.style.width = length*num_links + 100 + "px";
+xaxis.style.width = link_length*num_links + "px";
 // const xaxis_text = document.createElement("p");
-// xaxis_text.innerText = "x-axis";
+// xaxis_text.innerText = "x";
 // xaxis.appendChild(xaxis_text);
-const state_text = document.createElement("p");
-state_text.style.position = "relative";
-state_text.style.bottom = "50px";
-state_text.innerText = "State: ";
-const state_value = document.createElement("span");
-state_value.id = "state";
-state_value.innerText = "Equilibrium";
-state_text.appendChild(state_value);
-xaxis.appendChild(state_text);
-
 spring.appendChild(xaxis);
+
 
 render(init_angle);
 
@@ -159,12 +156,12 @@ function render(angle) {
     canvas.innerHTML = "";
     for (var i = 0; i < num_links; i++) {
         const line = document.createElement("div");
-        line.className = "line" + i;
-        line.style.width = length + "px";
+        line.id = "line" + i;
+        line.style.width = link_length + "px";
         line.style.position = "absolute";
         line.style.borderBottom = "3px solid black";
         line.style.transform = "translateY(" + 0 + "px)";
-        line.style.transform += "translateX(" + calcX(angle)*i + "px)";
+        line.style.transform += "translateX(" + getLinkX(angle)*i + "px)";
         if (i % 2 == 0) line.style.transform += "rotate(" + angle + "deg)";
         else line.style.transform += "rotate(-" + angle + "deg)";
         canvas.appendChild(line);
