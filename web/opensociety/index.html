@@ -72,10 +72,10 @@
             <label>degrees</label>
         </div>
         <div>
-            <label>k:<input id="k_input" type="text" value="1" size="4"></label>
+            <label>k:<input id="k_input" type="text" value="50" size="4"></label>
         </div>
         <div>
-            <p>Force = -kx = -<span id="k_span"></span>(<span id="x">0</span>) = <span id="force">0</span> Newton</p>
+            <p>Force = kx = <span id="k_span"></span>(<span id="x">0</span>) = <span id="force">0</span> Newton</p>
         </div>
         <div>
             <p>State: <span id="state">Equilibrium</span></p>
@@ -106,11 +106,16 @@ function getValue(angle) {
 }
 
 function getForce(x) {
-    return -k_input.value*x
+    return k_input.value*x
+}
+
+function getWork(x) {
+
 }
 
 function setText() {
-    const x = block_input.value - equilibrium_value;
+    k_span.innerText = k_input.value;
+    const x = (block_input.value - equilibrium_value) / 1000; // x = the distance from the equilibrium point converted from mm to m
     x_span.innerText = x;
     force_span.innerText = getForce(x);
     if (block_input.value == equilibrium_value) state_value.innerText = "Equilibrium";
@@ -131,7 +136,6 @@ function init() {
     block_input.value = equilibrium_value;
     block_input.setAttribute('value', equilibrium_value);
     xaxis.style.width = link_length.value*num_links.value + "px";
-    k_span.innerText = k_input.value;
     setText();
     render(init_angle.value);
 }
@@ -143,7 +147,7 @@ num_links.onchange = init;
 const init_angle = document.getElementById("init_angle");
 init_angle.onchange = init;
 const k_input = document.getElementById("k_input");
-k_input.onchange = init;
+k_input.onchange = setText;
 const k_span = document.getElementById("k_span");
 const x_span = document.getElementById("x");
 const force_span = document.getElementById("force");
