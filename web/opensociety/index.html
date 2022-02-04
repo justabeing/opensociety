@@ -119,7 +119,6 @@ function setText() {
 }
 
 function onRangeChange(event) {
-    console.log("onRangeChange")
     setText();
     render(getAngle(event.target.value));
 }
@@ -127,13 +126,13 @@ function onRangeChange(event) {
 function init() {
     equilibrium_value = Math.round(getValue(init_angle.value));
     equilibrium.style.left = equilibrium_value + "px";
-    setText();
     block_input.style.width = link_length.value*num_links.value + 23 + "px"; // TODO: 23px is hack to align input block with equilibrium point
     block_input.max = link_length.value*num_links.value;
     block_input.value = equilibrium_value;
     block_input.setAttribute('value', equilibrium_value);
     xaxis.style.width = link_length.value*num_links.value + "px";
     k_span.innerText = k_input.value;
+    setText();
     render(init_angle.value);
 }
 
