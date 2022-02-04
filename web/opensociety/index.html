@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Spring Work</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <style type="text/css" media="screen">
-    #spring {
+    #info {
+        margin-bottom: 50px;
     }
     .slider {
         top: 7px;
@@ -53,7 +55,6 @@
         text-align: end;
     }
     </style>
-
 </head>
 <body>
 
@@ -117,7 +118,7 @@ function setText() {
     k_span.innerText = k_input.value;
     const x = (block_input.value - equilibrium_value) / 1000; // x = the distance from the equilibrium point converted from mm to m
     x_span.innerText = x;
-    force_span.innerText = getForce(x);
+    force_span.innerText = +parseFloat(getForce(x)).toFixed(2);
     if (block_input.value == equilibrium_value) state_value.innerText = "Equilibrium";
     else if (block_input.value > equilibrium_value) state_value.innerText = "Elongated (Stretched)";
     else state_value.innerText = "Compressed";
